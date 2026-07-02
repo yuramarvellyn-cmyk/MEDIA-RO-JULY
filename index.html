@@ -4775,7 +4775,8 @@
             } else if (adventureState.spawnPlan && adventureState.spawnPlan.length > 0) {
                 selectedInstrument = adventureState.spawnPlan.shift();
             } else {
-                return;
+                adventureState.spawnPlan = buildAdventureSpawnPlan();
+                selectedInstrument = adventureState.spawnPlan.shift();
             }
             
             // Display image for the selected instrument
