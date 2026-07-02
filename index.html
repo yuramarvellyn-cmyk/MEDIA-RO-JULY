@@ -3362,6 +3362,7 @@
             <input type="text" id="input-player-name" placeholder="Ketik namamu di sini...">
             <input type="text" id="input-school-name" placeholder="Ketik nama sekolahmu di sini...">
             <button class="btn-gold" onclick="confirmPlayerInfo()">LANJUT KE PILIHAN AVATAR</button>
+            <button class="btn-gold" onclick="backToMainMenuFromPlayerInfo()" style="margin-top: 12px; background: rgba(33, 37, 41, 0.08); color: var(--dark-outline);">KEMBALI KE MENU AWAL</button>
         </div>
     </div>
 
@@ -3572,6 +3573,7 @@
         <div class="content-card">
             <div id="end-title"></div>
             <div id="end-message"></div>
+            <div id="end-score" style="margin: clamp(12px, 1.2vw, 16px) 0; font-size: clamp(16px, 2vw, 20px); font-weight: 700; color: var(--dark-outline);"></div>
             <button class="btn-gold" onclick="location.reload()">MAIN LAGI 🔄</button>
         </div>
     </div>
@@ -3780,6 +3782,11 @@
             document.getElementById('screen-player-info').classList.add('hidden');
             document.getElementById('screen-char').classList.remove('hidden');
             initCharList();
+        }
+
+        function backToMainMenuFromPlayerInfo() {
+            document.getElementById('screen-player-info').classList.add('hidden');
+            document.getElementById('screen-name').classList.remove('hidden');
         }
 
         function openInfoModal() {
@@ -4314,6 +4321,7 @@
         function finish(win) {
             state.active = false;
             const overlay = document.getElementById('end-overlay');
+            const endScore = document.getElementById('end-score');
             
             if (win) {
                 document.getElementById('end-title').innerText = "🏆 MAESTRO NUSANTARA";
@@ -4323,6 +4331,10 @@
                 document.getElementById('end-title').innerText = "💀 HARMONI TERHENTI";
                 document.getElementById('end-message').innerText = "Permainan selesai. Coba lagi untuk meningkatkan skor dan jelajahi lebih banyak wilayah!";
                 document.getElementById('end-title').style.color = '#dc2626';
+            }
+            
+            if (endScore) {
+                endScore.innerText = `Skor akhir: ${state.score}`;
             }
             
             // Kirim data ke spreadsheet
