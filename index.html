@@ -4566,6 +4566,7 @@
             adventureState.nextSpawn = 0;
             adventureState.finished = false;
             adventureState.caught = false;
+            adventureState.consistentSpawnPlan = buildConsistentAdventureSpawnPlan();
             resetAdventureSpawnPlan();
 
             // Mulai mainkan musik wilayah dengan loop otomatis
@@ -4763,8 +4764,21 @@
             return shuffleArray([correctInstrument, ...selectedRandom].filter(Boolean)).slice(0, 3);
         }
 
+        function buildConsistentAdventureSpawnPlan() {
+            const correctInstrument = adventureState.correctInstrument;
+            const otherInstruments = getAllInstruments().filter(inst => inst.id !== correctInstrument?.id);
+            const selectedRandom = [];
+
+            while (selectedRandom.length < 2 && otherInstruments.length > 0) {
+                const idx = Math.floor(Math.random() * otherInstruments.length);
+                selectedRandom.push(otherInstruments.splice(idx, 1)[0]);
+            }
+
+            return [correctInstrument, ...selectedRandom].filter(Boolean);
+        }
+
         function resetAdventureSpawnPlan() {
-            adventureState.spawnPlan = buildAdventureSpawnPlan();
+            adventureState.spawnPlan = adventureState.consistentSpawnPlan || buildConsistentAdventureSpawnPlan();
         }
 
         function spawnAdventureObstacle(stage, forceCorrect = false) {
