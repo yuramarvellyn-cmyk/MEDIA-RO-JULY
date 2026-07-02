@@ -4566,7 +4566,7 @@
             adventureState.nextSpawn = 0;
             adventureState.finished = false;
             adventureState.caught = false;
-            adventureState.spawnPlan = buildAdventureSpawnPlan();
+            resetAdventureSpawnPlan();
 
             // Mulai mainkan musik wilayah dengan loop otomatis
             const musicUrl = cityData[state.idx]?.music;
@@ -4709,6 +4709,7 @@
                         } else {
                             obs.el.classList.add('hit-wrong');
                             playSound(130, 0.2);
+                            resetAdventureSpawnPlan();
                             document.getElementById('adventure-instruction').innerText = '❌ Salah! Coba lagi.';
                         }
                     }
@@ -4762,6 +4763,10 @@
             return shuffleArray([correctInstrument, ...selectedRandom].filter(Boolean)).slice(0, 3);
         }
 
+        function resetAdventureSpawnPlan() {
+            adventureState.spawnPlan = buildAdventureSpawnPlan();
+        }
+
         function spawnAdventureObstacle(stage, forceCorrect = false) {
             const x = Math.floor(Math.random() * 72) + 14;
             const obstacle = document.createElement('div');
@@ -4775,7 +4780,7 @@
             } else if (adventureState.spawnPlan && adventureState.spawnPlan.length > 0) {
                 selectedInstrument = adventureState.spawnPlan.shift();
             } else {
-                adventureState.spawnPlan = buildAdventureSpawnPlan();
+                resetAdventureSpawnPlan();
                 selectedInstrument = adventureState.spawnPlan.shift();
             }
             
