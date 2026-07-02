@@ -4759,7 +4759,7 @@
                 selectedRandom.push(otherInstruments.splice(idx, 1)[0]);
             }
 
-            return shuffleArray([correctInstrument, ...selectedRandom]);
+            return shuffleArray([correctInstrument, ...selectedRandom].filter(Boolean)).slice(0, 3);
         }
 
         function spawnAdventureObstacle(stage, forceCorrect = false) {
