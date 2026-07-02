@@ -2834,10 +2834,53 @@
             line-height: 1.4;
         }
 
+        /* Mobile interaction polish */
+        html, body {
+            overscroll-behavior: none;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            touch-action: manipulation;
+        }
+
+        body {
+            min-height: 100svh;
+        }
+
+        .btn-gold,
+        .btn-dir,
+        .quiz-opt-btn,
+        .home-card {
+            min-height: 44px;
+        }
+
+        .screen-overlay {
+            min-height: 100dvh;
+        }
+
+        .content-card {
+            max-height: calc(100dvh - 24px);
+        }
+
+        .screen-overlay .content-card {
+            max-height: calc(100dvh - 40px);
+        }
+
         /* Mobile Responsive - Tablet (max 768px) */
         @media (max-width: 768px) {
             .game-container {
                 padding: clamp(10px, 3vw, 20px);
+            }
+
+            .game-main {
+                padding: clamp(10px, 2.5vw, 16px) clamp(8px, 2vw, 12px) clamp(100px, 18vw, 120px);
+            }
+
+            .game-panel {
+                padding: clamp(10px, 2.5vw, 14px) clamp(8px, 2vw, 12px);
+            }
+
+            .game-board-wrapper {
+                padding-bottom: clamp(6px, 2vw, 12px);
             }
 
             .screen-overlay {
@@ -2890,8 +2933,12 @@
             }
 
             .control-group {
-                bottom: clamp(15px, 3vw, 25px);
-                right: clamp(15px, 3vw, 25px);
+                position: fixed;
+                left: 50%;
+                right: auto;
+                bottom: max(10px, env(safe-area-inset-bottom));
+                transform: translateX(-50%);
+                z-index: 80;
             }
 
             .btn-dir-container {
@@ -2905,7 +2952,7 @@
             }
 
             .monopoly-board {
-                width: min(90vw, 90vh);
+                width: min(88vw, 82vh);
                 aspect-ratio: 1 / 1;
                 padding: clamp(6px, 1.5vw, 10px);
                 gap: clamp(3px, 0.8vw, 5px);
@@ -3017,8 +3064,8 @@
             }
 
             .screen-overlay {
-                padding: 0 8px;
-                min-height: 100vh;
+                padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+                min-height: 100dvh;
                 align-items: center;
                 justify-content: center;
             }
@@ -3077,6 +3124,14 @@
                 margin-top: 4px;
             }
 
+            .game-main {
+                padding: clamp(6px, 1.8vw, 10px) clamp(6px, 1.5vw, 8px) clamp(112px, 24vw, 140px);
+            }
+
+            .game-panel {
+                padding: clamp(8px, 2vw, 10px) clamp(6px, 1.5vw, 8px) 12px;
+            }
+
             .status-bar {
                 padding: clamp(8px, 2vw, 10px);
                 flex-wrap: wrap;
@@ -3108,8 +3163,10 @@
             }
 
             .control-group {
-                bottom: clamp(10px, 2vw, 15px);
-                right: clamp(10px, 2vw, 15px);
+                bottom: max(8px, env(safe-area-inset-bottom));
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
             }
 
             .btn-dir-container {
@@ -3124,8 +3181,8 @@
             }
 
             .monopoly-board {
-                width: min(75vh, 100vw);
-                height: min(75vh, 100vw);
+                width: min(94vw, 86vh);
+                height: min(94vw, 86vh);
                 padding: clamp(4px, 1vw, 6px);
                 gap: clamp(2px, 0.4vw, 3px);
                 border: clamp(3px, 0.8vw, 4px) solid var(--border-strong);
@@ -3250,6 +3307,7 @@
                 display: none;
             }
             .quiz-opt-btn {
+                min-height: 46px;
                 padding: clamp(10px, 1.8vw, 12px) clamp(8px, 1.5vw, 10px);
                 font-size: clamp(11px, 2vw, 14px);
                 border: clamp(1.5px, 0.3vw, 2px) solid var(--border-strong);
