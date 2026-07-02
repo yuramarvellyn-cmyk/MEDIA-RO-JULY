@@ -1344,6 +1344,25 @@
             opacity: 0.6;
         }
 
+        .quiz-opt-btn.correct-answer {
+            background: linear-gradient(135deg, #dcfce7 0%, #86efac 100%);
+            border-color: #16a34a;
+            color: #166534;
+            opacity: 1;
+        }
+
+        .quiz-opt-btn.wrong-answer {
+            background: linear-gradient(135deg, #fee2e2 0%, #fca5a5 100%);
+            border-color: #dc2626;
+            color: #991b1b;
+            opacity: 1;
+        }
+
+        .quiz-opt-btn:disabled.correct-answer,
+        .quiz-opt-btn:disabled.wrong-answer {
+            opacity: 1;
+        }
+
         #quiz-feedback-box {
             position: absolute;
             top: 0;
@@ -4219,7 +4238,7 @@
                 const btn = document.createElement('button');
                 btn.className = 'quiz-opt-btn';
                 btn.innerText = opt;
-                btn.onclick = () => checkAns(idx === state.currentQuiz.correct);
+                btn.onclick = (event) => checkAns(idx === state.currentQuiz.correct, event.currentTarget);
                 container.appendChild(btn);
             });
             
@@ -4228,8 +4247,16 @@
             overlay.classList.add('show');
         }
 
-        function checkAns(correct) {
-            document.querySelectorAll('.quiz-opt-btn').forEach(b => b.disabled = true);
+        function checkAns(correct, selectedButton) {
+            const buttons = document.querySelectorAll('#quiz-options .quiz-opt-btn');
+            buttons.forEach((button, idx) => {
+                button.disabled = true;
+                if (idx === state.currentQuiz.correct) {
+                    button.classList.add('correct-answer');
+                } else if (button === selectedButton && !correct) {
+                    button.classList.add('wrong-answer');
+                }
+            });
             
             // Record jawaban
             const questionId = state.idx;
@@ -5029,23 +5056,25 @@ Jika tidak ada energi yang hilang (ideal), pernyataan yang benar adalah …</div
             document.getElementById('question-card-3').innerHTML = card3HTML;
             const options3 = document.getElementById('options-3');
             options3.innerHTML = '';
+            options3.dataset.correctIndex = card3Correct;
             card3Options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
                 btn.className = 'quiz-opt-btn';
                 btn.innerText = opt;
-                btn.onclick = () => checkCardAnswer(3, idx === card3Correct);
+                btn.onclick = (event) => checkCardAnswer(3, idx === card3Correct, event.currentTarget);
                 options3.appendChild(btn);
             });
 
             document.getElementById('question-card-4').innerHTML = card4HTML;
             const options4 = document.getElementById('options-4');
             options4.innerHTML = '';
+            options4.dataset.correctIndex = card4Correct;
             card4Options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
                 btn.className = 'quiz-opt-btn';
                 btn.innerText = opt;
                 btn.disabled = true;
-                btn.onclick = () => checkCardAnswer(4, idx === card4Correct);
+                btn.onclick = (event) => checkCardAnswer(4, idx === card4Correct, event.currentTarget);
                 options4.appendChild(btn);
             });
 
@@ -5057,9 +5086,11 @@ Jika tidak ada energi yang hilang (ideal), pernyataan yang benar adalah …</div
             state.card4Answered = false;
         }
 
-        function checkCardAnswer(cardNum, correct) {
+        function checkCardAnswer(cardNum, correct, selectedButton) {
             const questionId = cardNum === 3 ? state.idx : ((state.idx % cityData.length) + 1);
             const cityName = cityData[questionId].name;
+            const options = document.getElementById(`options-${cardNum}`);
+            const correctIndex = Number(options.dataset.correctIndex);
             
             // Record jawaban
             state.answers.push({
@@ -5072,8 +5103,14 @@ Jika tidak ada energi yang hilang (ideal), pernyataan yang benar adalah …</div
             
             // Feedback visual
             const card = document.getElementById(`card-${cardNum}`);
-            const options = document.getElementById(`options-${cardNum}`);
-            options.querySelectorAll('button').forEach(btn => btn.disabled = true);
+            options.querySelectorAll('button').forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === correctIndex) {
+                    btn.classList.add('correct-answer');
+                } else if (btn === selectedButton && !correct) {
+                    btn.classList.add('wrong-answer');
+                }
+            });
             
             if (correct) {
                 card.style.borderColor = '#22c55e';
