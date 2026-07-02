@@ -4778,7 +4778,8 @@
         }
 
         function resetAdventureSpawnPlan() {
-            adventureState.spawnPlan = adventureState.consistentSpawnPlan || buildConsistentAdventureSpawnPlan();
+            const basePlan = adventureState.consistentSpawnPlan || buildConsistentAdventureSpawnPlan();
+            adventureState.spawnPlan = [...basePlan];
         }
 
         function spawnAdventureObstacle(stage, forceCorrect = false) {
