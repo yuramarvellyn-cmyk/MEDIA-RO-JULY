@@ -3207,13 +3207,23 @@
 
             .char-grid {
                 display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns: repeat(2, minmax(140px, 170px));
+                justify-content: center;
+                justify-items: center;
                 gap: clamp(10px, 2vw, 12px);
                 margin-bottom: clamp(12px, 3vw, 22px);
                 width: 100%;
+                max-width: 360px;
                 padding: 0 clamp(8px, 2vw, 12px);
                 overflow-x: hidden;
-                justify-items: center;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .char-grid .char-card:last-child {
+                grid-column: 1 / -1;
+                width: min(170px, 100%);
+                justify-self: center;
             }
 
             .char-card {
